@@ -6,12 +6,12 @@ Sistema de gerenciamento de pedidos e cardápio para a lanchonete Hotdog Taz.
 
 Aplicação web desenvolvida em **React** com **TypeScript** que oferece uma interface moderna e intuitiva para:
 
-- 🎯 **Dashboard**: Visualização de resumo de comandas e pedidos em andamento
-- 📋 **Cardápio**: Gerenciamento de produtos e categorias
-- 🛒 **Comandas**: Controle de comandas de clientes
-- 📦 **Fila de Pedidos**: Acompanhamento de pedidos em processamento
+-  **Dashboard**: Visualização de resumo de comandas e pedidos em andamento
+-  **Cardápio**: Gerenciamento de produtos e categorias
+-  **Comandas**: Controle de comandas de clientes
+-  **Fila de Pedidos**: Acompanhamento de pedidos em processamento
 
-## 🛠️ Tecnologias
+##  Tecnologias
 
 - **React 18** - Biblioteca UI
 - **TypeScript** - Tipagem estática
@@ -19,7 +19,7 @@ Aplicação web desenvolvida em **React** com **TypeScript** que oferece uma int
 - **Tailwind CSS** - Estilização
 - **ESLint** - Linting de código
 
-## 📁 Estrutura do Projeto
+##  Estrutura do Projeto
 
 ```
 src/
@@ -54,7 +54,7 @@ src/
 └── index.css
 ```
 
-## 🚀 Como Começar
+##  Como Começar
 
 ### Pré-requisitos
 
@@ -81,7 +81,7 @@ npm run dev
 
 A aplicação abrirá automaticamente em `http://localhost:5173`
 
-## 📜 Scripts Disponíveis
+##  Scripts Disponíveis
 
 ```bash
 # Iniciar servidor de desenvolvimento
@@ -97,7 +97,7 @@ npm run preview
 npm run lint
 ```
 
-## 🏗️ Arquitetura
+##  Arquitetura
 
 ### Serviços
 
@@ -117,7 +117,7 @@ Tipos TypeScript centralizados para toda a aplicação:
 - **Request** - Pedido/Requisição
 - **Category** - Categoria de produtos
 
-## 🎨 Estilo
+##  Estilo
 
 A aplicação utiliza **Tailwind CSS** para estilização. As cores e componentes seguem um design system consistente com:
 
@@ -126,15 +126,15 @@ A aplicação utiliza **Tailwind CSS** para estilização. As cores e componente
 - Paleta de cores adaptada
 - Design responsivo mobile-first
 
-## 🔌 API Integration
+##  API Integration
 
 As operações são realizadas através dos serviços que se comunicam com uma API backend. Configure a URL base da API nos arquivos de serviço conforme necessário.
 
-## 📝 Licença
+##  Licença
 
 Este projeto é propriedade da Lanchonete Hotdog Taz.
 
-## 👥 Contribuindo
+##  Contribuindo
 
 Para contribuir com o projeto:
 
