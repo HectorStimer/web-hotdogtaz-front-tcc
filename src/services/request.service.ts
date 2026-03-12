@@ -1,13 +1,14 @@
-import axios from 'axios'
+import api from './api'
 import type { Request } from '../types/request'
-
-const api = axios.create({
-  baseURL: 'http://localhost:8080/api/v1',
-})
 
 export async function getRequestsByCommand(commandId: number): Promise<Request[]> {
   const response = await api.get('/requests')
-  return response.data.filter((r: Request ) => r.commandId == commandId)  
+  return response.data.filter((r: Request) => r.commandId === commandId)
+}
+
+export async function getQueue(): Promise<Request[]> {
+  const response = await api.get('/requests/queue')
+  return response.data
 }
 
 export async function createRequest(data: {
@@ -21,11 +22,6 @@ export async function createRequest(data: {
   }[]
 }): Promise<Request> {
   const response = await api.post('/requests', data)
-  return response.data
-}
-
-export async function getQueue(): Promise<Request[]> {
-  const response = await api.get('/requests/queue')
   return response.data
 }
 

@@ -1,4 +1,4 @@
-import { LayoutDashboard, ClipboardList, UtensilsCrossed, ChefHat } from 'lucide-react'
+import { LayoutDashboard, ClipboardList, UtensilsCrossed, ChefHat, Users } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 
 
@@ -7,6 +7,7 @@ const menuItems = [
   { label: 'Comandas', icon: ClipboardList, path: '/app/comandas' },
   { label: 'Cardápio', icon: UtensilsCrossed, path: '/app/cardapio' },
   { label: 'Fila', icon: ChefHat, path: '/app/fila' },
+  { label: 'Usuários', icon: Users, path: '/app/usuarios' },
 ]
 
 function Sidebar() {

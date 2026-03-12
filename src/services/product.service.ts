@@ -1,9 +1,5 @@
-import axios from 'axios'
+import api from './api'
 import type { Product } from '../types/product'
-
-const api = axios.create({
-  baseURL: 'http://localhost:8080/api/v1',
-})
 
 export async function getProducts(): Promise<Product[]> {
   const response = await api.get('/products')

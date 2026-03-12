@@ -1,73 +1,148 @@
-# React + TypeScript + Vite
+# Hotdog Taz - Front-end
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sistema de gerenciamento de pedidos e cardápio para a lanchonete Hotdog Taz.
 
-Currently, two official plugins are available:
+## 📋 Descrição
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Aplicação web desenvolvida em **React** com **TypeScript** que oferece uma interface moderna e intuitiva para:
 
-## React Compiler
+- 🎯 **Dashboard**: Visualização de resumo de comandas e pedidos em andamento
+- 📋 **Cardápio**: Gerenciamento de produtos e categorias
+- 🛒 **Comandas**: Controle de comandas de clientes
+- 📦 **Fila de Pedidos**: Acompanhamento de pedidos em processamento
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tecnologias
 
-## Expanding the ESLint configuration
+- **React 18** - Biblioteca UI
+- **TypeScript** - Tipagem estática
+- **Vite** - Build tool
+- **Tailwind CSS** - Estilização
+- **ESLint** - Linting de código
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📁 Estrutura do Projeto
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── components/        # Componentes reutilizáveis
+│   ├── AppLayout.tsx
+│   ├── Sidebar.tsx
+│   ├── CommandCard.tsx
+│   └── ProductCard.tsx
+├── pages/            # Páginas da aplicação
+│   ├── Dashboard.tsx
+│   ├── Cardapio.tsx
+│   ├── Comandas.tsx
+│   ├── Command.tsx
+│   ├── AddProduct.tsx
+│   ├── EditProduct.tsx
+│   ├── NewRequest.tsx
+│   └── Queue.tsx
+├── services/         # Serviços de API
+│   ├── command.service.ts
+│   ├── product.service.ts
+│   ├── request.service.ts
+│   └── category.service.ts
+├── types/           # Tipos TypeScript
+│   ├── command.ts
+│   ├── product.ts
+│   ├── request.ts
+│   └── category.ts
+├── routes/          # Configuração de rotas
+├── assets/          # Ativos estáticos
+├── App.tsx
+├── main.tsx
+└── index.css
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🚀 Como Começar
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Pré-requisitos
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js 16+ 
+- npm ou yarn
+
+### Instalação
+
+1. Clone o repositório:
+```bash
+git clone <URL_DO_REPOSITORIO>
+cd hotdogtaz-front
 ```
+
+2. Instale as dependências:
+```bash
+npm install
+```
+
+3. Inicie o servidor de desenvolvimento:
+```bash
+npm run dev
+```
+
+A aplicação abrirá automaticamente em `http://localhost:5173`
+
+## 📜 Scripts Disponíveis
+
+```bash
+# Iniciar servidor de desenvolvimento
+npm run dev
+
+# Build para produção
+npm run build
+
+# Visualizar build de produção localmente
+npm run preview
+
+# Executar linter
+npm run lint
+```
+
+## 🏗️ Arquitetura
+
+### Serviços
+
+Os serviços gerenciam a comunicação com a API:
+
+- **command.service.ts** - Operações relacionadas a comandas
+- **product.service.ts** - Gerenciamento de produtos
+- **request.service.ts** - Operações de pedidos
+- **category.service.ts** - Gerenciamento de categorias
+
+### Types
+
+Tipos TypeScript centralizados para toda a aplicação:
+
+- **Command** - Comanda de cliente
+- **Product** - Produto do cardápio
+- **Request** - Pedido/Requisição
+- **Category** - Categoria de produtos
+
+## 🎨 Estilo
+
+A aplicação utiliza **Tailwind CSS** para estilização. As cores e componentes seguem um design system consistente com:
+
+- Componentes com bordas arredondadas (`rounded-xl`)
+- Sombras suaves (`shadow`)
+- Paleta de cores adaptada
+- Design responsivo mobile-first
+
+## 🔌 API Integration
+
+As operações são realizadas através dos serviços que se comunicam com uma API backend. Configure a URL base da API nos arquivos de serviço conforme necessário.
+
+## 📝 Licença
+
+Este projeto é propriedade da Lanchonete Hotdog Taz.
+
+## 👥 Contribuindo
+
+Para contribuir com o projeto:
+
+1. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
+2. Commit suas mudanças (`git commit -m 'Adiciona MinhaFeature'`)
+3. Push para a branch (`git push origin feature/MinhaFeature`)
+4. Abra um Pull Request
+
+## 📧 Contato
+
+Para dúvidas ou sugestões, entre em contato com o time de desenvolvimento.

@@ -1,9 +1,5 @@
-import axios from 'axios'
+import api from './api'
 import type { Command } from '../types/command'
-
-const api = axios.create({
-  baseURL: 'http://localhost:8080/api/v1',
-})
 
 export async function getCommands(): Promise<Command[]> {
   const response = await api.get('/commands')
