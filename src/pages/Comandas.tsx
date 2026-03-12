@@ -3,6 +3,8 @@ import { getCommands } from '../services/command.service'
 import { createCommand } from '../services/command.service'
 import CommandCard from '../components/CommandCard'
 import type { Command } from '../types/command'
+import { Plus, X, Loader2 } from 'lucide-react'
+import LoadingScreen from '../components/Loading'
 
 function Comandas() {
   const [commands, setCommands] = useState<Command[]>([])
@@ -44,80 +46,114 @@ function Comandas() {
     }
   }
 
-  if (loading) return <p>Carregando...</p>
+  if (loading) return <LoadingScreen />
   if (error) return <p className="text-red-500">{error}</p>
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Comandas</h1>
+    <div className="flex flex-col gap-8">
+      {/* Header */}
+      <div className="flex justify-between items-start gap-6">
+        <div>
+          <h1 className="section-title">Comandas</h1>
+          <p className="text-gray-600 text-sm">{commands.length} comandas abertas</p>
+        </div>
         <button
           onClick={() => setOpenSheet(true)}
-          className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors"
+          className="btn-primary flex items-center gap-2 flex-shrink-0"
         >
-          + Nova Comanda
+          <Plus size={20} />
+          Nova Comanda
         </button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {commands.map((command) => (
-          <CommandCard key={command.id} command={command} />
-        ))}
-      </div>
+      {/* Commands Grid */}
+      {commands.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-20 text-gray-500">
+          <p className="text-lg font-medium">Nenhuma comanda aberta</p>
+          <p className="text-sm">Comece criando uma nova comanda</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {commands.map((command) => (
+            <CommandCard key={command.id} command={command} />
+          ))}
+        </div>
+      )}
 
       {/* Modal de criar comanda */}
       {openSheet && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md flex flex-col gap-4">
-            <h2 className="text-xl font-bold">Nova Comanda</h2>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="card w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-300">
+            <div className="p-6 border-b border-gray-100 bg-gradient-to-r from-orange-50 to-amber-50 flex justify-between items-center">
+              <h2 className="text-lg font-bold text-gray-900">Nova Comanda</h2>
+              <button
+                onClick={() => setOpenSheet(false)}
+                className="p-1 hover:bg-white/50 rounded-lg transition-colors"
+              >
+                <X size={20} className="text-gray-600" />
+              </button>
+            </div>
 
-            <form onSubmit={handleCreate} className="flex flex-col gap-4">
-              <div className="flex flex-col gap-1">
-                <label className="text-sm font-medium">Número da Comanda</label>
+            <form onSubmit={handleCreate} className="p-6 flex flex-col gap-4">
+              <div className="form-group">
+                <label className="form-label">Número da Comanda</label>
                 <input
                   type="number"
                   value={number}
                   onChange={(e) => setNumber(e.target.value)}
-                  className="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                  className="input-field"
+                  placeholder="Ex: 1"
                   required
                 />
               </div>
 
-              <div className="flex flex-col gap-1">
-                <label className="text-sm font-medium">Número da Mesa</label>
+              <div className="form-group">
+                <label className="form-label">Número da Mesa</label>
                 <input
                   type="number"
                   value={tableNumber}
                   onChange={(e) => setTableNumber(e.target.value)}
-                  className="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                  className="input-field"
+                  placeholder="Ex: 5"
                   required
                 />
               </div>
 
-              <div className="flex flex-col gap-1">
-                <label className="text-sm font-medium">Observação</label>
+              <div className="form-group">
+                <label className="form-label">Observação (Opcional)</label>
                 <textarea
                   value={observation}
                   onChange={(e) => setObservation(e.target.value)}
-                  className="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                  className="input-field resize-none"
                   rows={3}
+                  placeholder="Ex: Cliente VIP, alergia a glúten..."
                 />
               </div>
 
-              <div className="flex justify-end gap-3">
+              <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
                 <button
                   type="button"
                   onClick={() => setOpenSheet(false)}
-                  className="px-4 py-2 rounded-lg border hover:bg-gray-100 transition-colors"
+                  className="btn-secondary"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors disabled:opacity-50"
+                  className="btn-primary flex items-center gap-2"
                 >
-                  {saving ? 'Salvando...' : 'Criar'}
+                  {saving ? (
+                    <>
+                      <Loader2 size={18} className="animate-spin" />
+                      Salvando...
+                    </>
+                  ) : (
+                    <>
+                      <Plus size={18} />
+                      Criar
+                    </>
+                  )}
                 </button>
               </div>
             </form>

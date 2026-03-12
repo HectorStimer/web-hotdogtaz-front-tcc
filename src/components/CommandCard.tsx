@@ -1,5 +1,6 @@
 import type { Command } from '../types/command'
 import { useNavigate } from 'react-router-dom'
+import { Clock, DollarSign, Table2, ArrowRight } from 'lucide-react'
 
 type Props = {
   command: Command
@@ -11,35 +12,60 @@ function CommandCard({ command }: Props) {
   const openingDate = new Date(command.openingDate)
   const tempo = Math.floor((new Date().getTime() - openingDate.getTime()) / 60000)
 
+  const isCompleted = command.status === 'COMPLETED'
+
   return (
-    <div className="bg-white rounded-xl shadow p-4 flex flex-col gap-3">
-      <div className="flex justify-between items-center">
-        <h3 className="font-semibold text-lg">Comanda #{command.number}</h3>
-        <span className={`text-xs px-2 py-1 rounded-full ${
-          command.status === 'COMPLETED'
-            ? 'bg-gray-100 text-gray-600'
-            : 'bg-green-100 text-green-700'
-        }`}>
-          {command.status === 'COMPLETED' ? 'Finalizada' : 'Aberta'}
-        </span>
+    <div className={`card-hover overflow-hidden ${isCompleted ? 'opacity-75' : ''}`}>
+      <div className="p-5 flex flex-col gap-4">
+        {/* Header */}
+        <div className="flex justify-between items-start gap-3">
+          <div>
+            <p className="text-xs text-gray-500 font-medium">Comanda</p>
+            <h3 className="font-bold text-xl text-gray-900">#{command.number}</h3>
+          </div>
+          <span className={`badge ${
+            isCompleted
+              ? 'bg-gray-100 text-gray-600'
+              : 'badge-success'
+          }`}>
+            {isCompleted ? 'Finalizada' : 'Aberta'}
+          </span>
+        </div>
+
+        {/* Info */}
+        <div className="space-y-3 py-3 border-y border-gray-100">
+          <div className="flex items-center gap-3 text-sm">
+            <Table2 size={16} className="text-gray-400" />
+            <span className="text-gray-600">Mesa <strong className="text-gray-900">{command.tableNumber}</strong></span>
+          </div>
+          
+          <div className="flex items-center gap-3 text-sm">
+            <DollarSign size={16} className="text-orange-500" />
+            <span className="text-gray-600">Total <strong className="text-gray-900">R$ {command.total.toFixed(2)}</strong></span>
+          </div>
+          
+          <div className="flex items-center gap-3 text-sm">
+            <Clock size={16} className="text-gray-400" />
+            <span className="text-gray-600"><strong className="text-gray-900">{tempo} min</strong> aberta</span>
+          </div>
+        </div>
+
+        {/* Observation */}
+        {command.observation && (
+          <p className="text-xs text-gray-500 italic bg-gray-50 p-2 rounded-lg border border-gray-100">
+            💬 {command.observation}
+          </p>
+        )}
+
+        {/* Button */}
+        <button
+          onClick={() => navigate(`/app/comandas/${command.id}`)}
+          className="mt-auto btn-primary w-full flex items-center justify-center gap-2"
+        >
+          <span>Abrir</span>
+          <ArrowRight size={16} />
+        </button>
       </div>
-
-      <div className="text-sm text-gray-600 space-y-1">
-        <p>Mesa: {command.tableNumber}</p>
-        <p>Total: R$ {command.total.toFixed(2)}</p>
-        <p className="text-gray-400">⏱ {tempo} min</p>
-      </div>
-
-      {command.observation && (
-        <p className="text-xs text-gray-400 italic">{command.observation}</p>
-      )}
-
-      <button
-        onClick={() => navigate(`/app/comandas/${command.id}`)}
-        className="bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition-colors mt-auto"
-      >
-        Abrir
-      </button>
     </div>
   )
 }

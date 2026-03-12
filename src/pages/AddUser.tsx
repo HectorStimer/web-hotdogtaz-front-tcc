@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createUser } from '../services/user.service'
+import { ArrowLeft, Loader2 } from 'lucide-react'
 
 function AddUser() {
   const navigate = useNavigate()
@@ -24,67 +25,97 @@ function AddUser() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto flex flex-col gap-6">
+    <div className="flex flex-col gap-8 max-w-2xl">
+      {/* Header */}
       <div className="flex items-center gap-4">
-        <button onClick={() => navigate('/app/usuarios')} className="text-gray-500 hover:text-gray-700">
-          ← Voltar
+        <button
+          onClick={() => navigate('/app/usuarios')}
+          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          title="Voltar"
+        >
+          <ArrowLeft size={20} className="text-gray-600" />
         </button>
-        <h1 className="text-2xl font-bold">Novo Usuário</h1>
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Novo Usuário</h1>
+          <p className="text-sm text-gray-600">Adicione um novo membro à equipe</p>
+        </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow p-6 flex flex-col gap-4">
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium">Nome</label>
+      <form onSubmit={handleSubmit} className="card p-8 flex flex-col gap-6">
+        <div className="form-group">
+          <label className="form-label">Nome Completo</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+            placeholder="Ex: João Silva"
+            className="input-field"
             required
           />
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium">Email</label>
+        <div className="form-group">
+          <label className="form-label">Email</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+            placeholder="Ex: joao@example.com"
+            className="input-field"
             required
           />
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium">Senha</label>
+        <div className="form-group">
+          <label className="form-label">Senha</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+            placeholder="••••••••"
+            className="input-field"
             required
           />
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium">Tipo</label>
+        <div className="form-group">
+          <label className="form-label">Tipo de Usuário</label>
           <select
             value={type}
             onChange={(e) => setType(e.target.value as 'ADMIN' | 'CLERK')}
-            className="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="input-field"
           >
             <option value="CLERK">Funcionário</option>
             <option value="ADMIN">Administrador</option>
           </select>
+          <p className="text-xs text-gray-500 mt-2">
+            Administradores têm acesso a todas as funcionalidades, funcionários têm acesso limitado
+          </p>
         </div>
 
-        <button
-          type="submit"
-          disabled={saving}
-          className="bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition-colors disabled:opacity-50"
-        >
-          {saving ? 'Salvando...' : 'Criar Usuário'}
-        </button>
+        <div className="flex gap-3 pt-4 border-t border-gray-100">
+          <button
+            type="button"
+            onClick={() => navigate('/app/usuarios')}
+            className="btn-secondary flex-1"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            disabled={saving}
+            className="btn-primary flex-1 flex items-center justify-center gap-2"
+          >
+            {saving ? (
+              <>
+                <Loader2 size={18} className="animate-spin" />
+                Salvando...
+              </>
+            ) : (
+              'Criar Usuário'
+            )}
+          </button>
+        </div>
       </form>
     </div>
   )
