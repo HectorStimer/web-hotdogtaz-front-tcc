@@ -1,148 +1,178 @@
-# Hotdog Taz - Front-end
+#  Hot Dog Taz — Frontend
 
-Sistema de gerenciamento de pedidos e cardápio para a lanchonete Hotdog Taz.
+Interface web do sistema de gerenciamento da lancheria **Hot Dog Taz**, desenvolvida com React, TypeScript e Tailwind CSS.
 
-## 📋 Descrição
+---
 
-Aplicação web desenvolvida em **React** com **TypeScript** que oferece uma interface moderna e intuitiva para:
+## 📋 Pré-requisitos
 
--  **Dashboard**: Visualização de resumo de comandas e pedidos em andamento
--  **Cardápio**: Gerenciamento de produtos e categorias
--  **Comandas**: Controle de comandas de clientes
--  **Fila de Pedidos**: Acompanhamento de pedidos em processamento
+Antes de rodar o projeto, instale:
+
+- [Node.js 18+](https://nodejs.org/)
+- [VS Code](https://code.visualstudio.com/) (recomendado)
+
+Extensões recomendadas no VS Code:
+- `ES7+ React/Redux/React-Native snippets`
+- `Tailwind CSS IntelliSense`
+- `Prettier`
+- `ESLint`
+
+---
 
 ##  Tecnologias
 
-- **React 18** - Biblioteca UI
-- **TypeScript** - Tipagem estática
-- **Vite** - Build tool
-- **Tailwind CSS** - Estilização
-- **ESLint** - Linting de código
+| Tecnologia | Versão | Uso |
+|---|---|---|
+| React | 18+ | Framework UI |
+| TypeScript | 5+ | Tipagem estática |
+| Vite | 6+ | Bundler |
+| Tailwind CSS | 4+ | Estilização |
+| React Router DOM | 7+ | Roteamento |
+| Axios | 1+ | Requisições HTTP |
+| Keycloak JS | 24+ | Autenticação |
+| @react-keycloak/web | 3+ | Integração Keycloak + React |
+| Lucide React | - | Ícones |
+
+---
 
 ##  Estrutura do Projeto
 
 ```
 src/
-├── components/        # Componentes reutilizáveis
-│   ├── AppLayout.tsx
-│   ├── Sidebar.tsx
-│   ├── CommandCard.tsx
-│   └── ProductCard.tsx
-├── pages/            # Páginas da aplicação
-│   ├── Dashboard.tsx
-│   ├── Cardapio.tsx
-│   ├── Comandas.tsx
-│   ├── Command.tsx
-│   ├── AddProduct.tsx
-│   ├── EditProduct.tsx
-│   ├── NewRequest.tsx
-│   └── Queue.tsx
-├── services/         # Serviços de API
-│   ├── command.service.ts
-│   ├── product.service.ts
-│   ├── request.service.ts
-│   └── category.service.ts
-├── types/           # Tipos TypeScript
-│   ├── command.ts
-│   ├── product.ts
-│   ├── request.ts
-│   └── category.ts
-├── routes/          # Configuração de rotas
-├── assets/          # Ativos estáticos
-├── App.tsx
-├── main.tsx
-└── index.css
+│
+├── components/
+│   ├── AppLayout.tsx       # Layout principal com sidebar e área de conteúdo
+│   ├── CommandCard.tsx     # Card de comanda na listagem
+│   ├── Loading.tsx         # Tela de carregamento (bolinhas animadas)
+│   ├── PrivateRoute.tsx    # Proteção de rotas autenticadas via Keycloak
+│   ├── ProductCard.tsx     # Card de produto no cardápio
+│   └── Sidebar.tsx         # Menu lateral de navegação
+│
+├── pages/
+│   ├── AddProduct.tsx      # Formulário de criação de produto
+│   ├── AddUser.tsx         # Formulário de criação de usuário
+│   ├── Cardapio.tsx        # Listagem de produtos do cardápio
+│   ├── Comandas.tsx        # Listagem de comandas abertas
+│   ├── Command.tsx         # Detalhes de uma comanda com seus pedidos
+│   ├── Dashboard.tsx       # Tela inicial com resumo do sistema
+│   ├── EditProduct.tsx     # Formulário de edição de produto
+│   ├── EditUser.tsx        # Formulário de edição de usuário
+│   ├── NewRequest.tsx      # Tela para criar novo pedido dentro de uma comanda
+│   ├── Queue.tsx           # Fila de pedidos para a cozinha
+│   └── Users.tsx           # Listagem de usuários
+│
+├── routes/
+│   └── index.tsx           # Definição de todas as rotas da aplicação
+│
+├── services/
+│   ├── api.ts              # Instância central do Axios com interceptor de token
+│   ├── category.service.ts # Requisições de categorias
+│   ├── command.service.ts  # Requisições de comandas
+│   ├── product.service.ts  # Requisições de produtos
+│   ├── request.service.ts  # Requisições de pedidos
+│   └── user.service.ts     # Requisições de usuários
+│
+├── types/
+│   ├── category.ts         # Tipo Category
+│   ├── command.ts          # Tipo Command
+│   ├── product.ts          # Tipo Product
+│   ├── request.ts          # Tipos Request e RequestItem
+│   └── user.ts             # Tipo User
+│
+├── keycloak.ts             # Configuração do cliente Keycloak
+├── main.tsx                # Ponto de entrada da aplicação
+└── index.css               # Estilos globais (Tailwind)
 ```
 
-##  Como Começar
+---
 
-### Pré-requisitos
+##  Como rodar
 
-- Node.js 16+ 
-- npm ou yarn
+### 1. Clonar o repositório
 
-### Instalação
-
-1. Clone o repositório:
 ```bash
-git clone <URL_DO_REPOSITORIO>
-cd hotdogtaz-front
+git clone https://github.com/HectorStimer/web-hotdogtaz-front.git
+cd web-hotdogtaz-front
 ```
 
-2. Instale as dependências:
+### 2. Instalar as dependências
+
 ```bash
 npm install
 ```
 
-3. Inicie o servidor de desenvolvimento:
+### 3. Verificar o `src/keycloak.ts`
+
+Confirma que as configurações apontam para o Keycloak correto:
+
+```ts
+const keycloak = new Keycloak({
+  url: 'http://localhost:8180',
+  realm: 'hotdogtaz',
+  clientId: 'hotdogtaz-front',
+})
+```
+
+### 4. Verificar o `src/services/api.ts`
+
+Confirma que a URL base da API está correta:
+
+```ts
+const api = axios.create({
+  baseURL: 'http://localhost:8080/api/v1',
+})
+```
+
+### 5. Rodar o projeto
+
 ```bash
 npm run dev
 ```
 
-A aplicação abrirá automaticamente em `http://localhost:5173`
+O front estará disponível em `http://localhost:5173`
 
-##  Scripts Disponíveis
+>  O backend e o Keycloak precisam estar rodando antes de abrir o front.
 
-```bash
-# Iniciar servidor de desenvolvimento
-npm run dev
+---
 
-# Build para produção
-npm run build
+## Páginas do Sistema
 
-# Visualizar build de produção localmente
-npm run preview
+| Rota | Página | Descrição |
+|---|---|---|
+| `/app` | Dashboard | Resumo de comandas e pedidos em andamento |
+| `/app/cardapio` | Cardápio | Listagem de produtos com filtro de ativos |
+| `/app/cardapio/novo` | Novo Produto | Formulário para criar produto |
+| `/app/cardapio/:id` | Editar Produto | Formulário para editar produto |
+| `/app/comandas` | Comandas | Listagem de comandas abertas e finalizadas |
+| `/app/comandas/:id` | Comanda | Detalhes da comanda com pedidos e opção de fechar |
+| `/app/comandas/:id/novo-pedido` | Novo Pedido | Seleção de produtos para criar pedido |
+| `/app/fila` | Fila | Pedidos em andamento para a cozinha avançar status |
+| `/app/usuarios` | Usuários | Listagem de usuários do sistema |
+| `/app/usuarios/novo` | Novo Usuário | Formulário para criar usuário |
+| `/app/usuarios/:id` | Editar Usuário | Formulário para editar usuário |
 
-# Executar linter
-npm run lint
+---
+
+##  Autenticação
+
+O sistema usa **Keycloak** para autenticação. Ao acessar qualquer rota, o usuário é redirecionado automaticamente para a tela de login do Keycloak.
+
+Após o login, o token JWT é enviado automaticamente em todas as requisições para a API via header:
+```
+Authorization: Bearer <token>
 ```
 
-##  Arquitetura
+Perfis de acesso:
+- `ADMIN` — acesso total ao sistema
+- `CLERK` — acesso restrito (não acessa página de usuários)
 
-### Serviços
+---
 
-Os serviços gerenciam a comunicação com a API:
+##  Scripts disponíveis
 
-- **command.service.ts** - Operações relacionadas a comandas
-- **product.service.ts** - Gerenciamento de produtos
-- **request.service.ts** - Operações de pedidos
-- **category.service.ts** - Gerenciamento de categorias
+```bash
+npm run dev      # Inicia o servidor de desenvolvimento
+npm run build    # Gera build de produção
+npm run preview  # Visualiza o build de produção
+```
 
-### Types
-
-Tipos TypeScript centralizados para toda a aplicação:
-
-- **Command** - Comanda de cliente
-- **Product** - Produto do cardápio
-- **Request** - Pedido/Requisição
-- **Category** - Categoria de produtos
-
-##  Estilo
-
-A aplicação utiliza **Tailwind CSS** para estilização. As cores e componentes seguem um design system consistente com:
-
-- Componentes com bordas arredondadas (`rounded-xl`)
-- Sombras suaves (`shadow`)
-- Paleta de cores adaptada
-- Design responsivo mobile-first
-
-##  API Integration
-
-As operações são realizadas através dos serviços que se comunicam com uma API backend. Configure a URL base da API nos arquivos de serviço conforme necessário.
-
-##  Licença
-
-Este projeto é propriedade da Lanchonete Hotdog Taz.
-
-##  Contribuindo
-
-Para contribuir com o projeto:
-
-1. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
-2. Commit suas mudanças (`git commit -m 'Adiciona MinhaFeature'`)
-3. Push para a branch (`git push origin feature/MinhaFeature`)
-4. Abra um Pull Request
-
-## 📧 Contato
-
-Para dúvidas ou sugestões, entre em contato com o time de desenvolvimento.
