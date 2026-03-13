@@ -13,6 +13,8 @@ import AddUser from '../pages/AddUser'
 import EditUser from '../pages/EditUser'
 import Command from '../pages/Command'
 
+import RoleRoute from '../components/RoleRoute'
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -27,16 +29,20 @@ const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: <Dashboard /> },
-      { path: 'comandas', element: <Comandas /> },
-      { path: 'comandas/:id', element: <Command /> },
-      { path: 'comandas/:id/novo-pedido', element: <NewRequest /> },
-      { path: 'cardapio', element: <Cardapio /> },
-      { path: 'cardapio/novo', element: <AddProduct /> },
-      { path: 'cardapio/:id', element: <EditProduct /> },
-      { path: 'fila', element: <Queue /> },
-      { path: 'usuarios', element: <Users /> },
-      { path: 'usuarios/novo', element: <AddUser /> },
-      { path: 'usuarios/:id', element: <EditUser /> },
+      // rotas só para ADMIN:
+        { path: 'usuarios', element: <RoleRoute allowedRoles={['ADMIN']}><Users /></RoleRoute> },
+        { path: 'usuarios/novo', element: <RoleRoute allowedRoles={['ADMIN']}><AddUser /></RoleRoute> },
+        { path: 'usuarios/:id', element: <RoleRoute allowedRoles={['ADMIN']}><EditUser /></RoleRoute> },
+        
+        { path: 'cardapio', element: <RoleRoute allowedRoles={['ADMIN']}><Cardapio /></RoleRoute> },
+        { path: 'cardapio/novo', element: <RoleRoute allowedRoles={['ADMIN']}><AddProduct /></RoleRoute> },
+        { path: 'cardapio/:id', element: <RoleRoute allowedRoles={['ADMIN']}><EditProduct /></RoleRoute> },
+
+        // rotas para ADMIN e CLERK:
+        { path: 'fila', element: <RoleRoute allowedRoles={['ADMIN', 'CLERK']}><Queue /></RoleRoute> },
+        { path: 'comandas', element: <RoleRoute allowedRoles={['ADMIN', 'CLERK']}><Comandas /></RoleRoute> },
+        { path: 'comandas/:id', element: <RoleRoute allowedRoles={['ADMIN', 'CLERK']}><Command /></RoleRoute> },
+        { path: 'comandas/:id/novo-pedido', element: <RoleRoute allowedRoles={['ADMIN', 'CLERK']}><NewRequest /></RoleRoute> },
     ],
   },
 ])
