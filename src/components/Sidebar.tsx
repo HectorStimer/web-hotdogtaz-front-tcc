@@ -1,4 +1,4 @@
-import { LayoutDashboard, ClipboardList, UtensilsCrossed, ChefHat, Users, LogOut } from 'lucide-react'
+import { LayoutDashboard, ClipboardList, UtensilsCrossed, ChefHat, Users, LogOut, Tag } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import { useKeycloak } from '@react-keycloak/web'
 import { useRoles } from '../hooks/useRoles'
@@ -13,6 +13,7 @@ function Sidebar() {
     { label: 'Fila', icon: ChefHat, path: '/app/fila' },
     ...(isAdmin ? [
       { label: 'Cardápio', icon: UtensilsCrossed, path: '/app/cardapio' },
+      { label: 'Categorias', icon: Tag, path: '/app/categorias' },
       { label: 'Usuários', icon: Users, path: '/app/usuarios' },
     ] : []),
   ]
