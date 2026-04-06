@@ -1,6 +1,7 @@
 import type { Command } from '../types/command'
 import { useNavigate } from 'react-router-dom'
 import { Clock, DollarSign, Table2, ArrowRight } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 type Props = {
   command: Command
@@ -8,9 +9,23 @@ type Props = {
 
 function CommandCard({ command }: Props) {
   const navigate = useNavigate()
+  const [requests, setRequests] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
   const openingDate = new Date(command.openingDate)
   const tempo = Math.floor((new Date().getTime() - openingDate.getTime()) / 60000)
+
+  useEffect(() => {
+    import('../services/request.service').then(({ getRequestsByCommand }) => {
+      getRequestsByCommand(command.id)
+        .then(setRequests)
+        .finally(() => setLoading(false))
+    })
+  }, [command.id])
+
+  const totalAmount = requests.reduce((sum, r) => {
+    return sum + r.items.reduce((itemSum: number, item: any) => itemSum + (item.unitPrice * item.quantity), 0)
+  }, 0)
 
   const isCompleted = command.status === 'COMPLETED'
 
@@ -41,7 +56,7 @@ function CommandCard({ command }: Props) {
           
           <div className="flex items-center gap-3 text-sm">
             <DollarSign size={16} className="text-orange-500" />
-            <span className="text-gray-600">Total <strong className="text-gray-900">R$ {command.total.toFixed(2)}</strong></span>
+            <span className="text-gray-600">Total <strong className="text-gray-900">R$ {totalAmount.toFixed(2)}</strong></span>
           </div>
           
           <div className="flex items-center gap-3 text-sm">
