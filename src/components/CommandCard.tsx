@@ -2,6 +2,7 @@ import type { Command } from '../types/command'
 import { useNavigate } from 'react-router-dom'
 import { Clock, DollarSign, Table2, ArrowRight } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { getRequestsByCommand } from '../services/request.service'
 
 type Props = {
   command: Command
@@ -10,17 +11,14 @@ type Props = {
 function CommandCard({ command }: Props) {
   const navigate = useNavigate()
   const [requests, setRequests] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
 
   const openingDate = new Date(command.openingDate)
   const tempo = Math.floor((new Date().getTime() - openingDate.getTime()) / 60000)
 
   useEffect(() => {
-    import('../services/request.service').then(({ getRequestsByCommand }) => {
-      getRequestsByCommand(command.id)
-        .then(setRequests)
-        .finally(() => setLoading(false))
-    })
+    getRequestsByCommand(command.id)
+      .then(setRequests)
+      .catch(() => {})
   }, [command.id])
 
   const totalAmount = requests.reduce((sum, r) => {
