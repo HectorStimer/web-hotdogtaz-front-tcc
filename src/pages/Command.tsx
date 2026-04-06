@@ -55,6 +55,9 @@ function CommandPage() {
 
   const isCompleted = command.status === 'COMPLETED'
   const itemCount = requests.reduce((sum, r) => sum + r.items.length, 0)
+  const totalAmount = requests.reduce((sum, r) => {
+    return sum + r.items.reduce((itemSum, item) => itemSum + (item.unitPrice * item.quantity), 0)
+  }, 0)
 
   return (
     <div className="flex flex-col gap-8">
@@ -110,7 +113,7 @@ function CommandPage() {
           </div>
           <div>
             <p className="text-xs text-gray-500 uppercase">Total</p>
-            <p className="text-lg font-bold text-gray-900">R$ {command.total.toFixed(2)}</p>
+            <p className="text-lg font-bold text-gray-900">R$ {totalAmount.toFixed(2)}</p>
           </div>
         </div>
       </div>
