@@ -13,6 +13,8 @@ function CommandPage() {
   const [command, setCommand] = useState<Command | null>(null)
   const [requests, setRequests] = useState<Request[]>([])
   const [loading, setLoading] = useState(true)
+  const [showCloseModal, setShowCloseModal] = useState(false)
+  const [closing, setClosing] = useState(false)
 
   useEffect(() => {
     if (id) {
@@ -31,7 +33,7 @@ function CommandPage() {
 
   async function handleClose() {
     if (!id || !command) return
-    if (!confirm('Deseja fechar esta comanda?')) return
+    setClosing(true)
 
     try {
       await updateCommand(parseInt(id), {
@@ -43,6 +45,9 @@ function CommandPage() {
       navigate('/app/comandas')
     } catch {
       alert('Erro ao fechar comanda.')
+    } finally {
+      setClosing(false)
+      setShowCloseModal(false)
     }
   }
 
@@ -193,13 +198,54 @@ function CommandPage() {
 
       {/* Action Button */}
       {!isCompleted && (
-        <button
-          onClick={handleClose}
-          className="bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-200 font-semibold flex items-center justify-center gap-2"
-        >
-          <Check size={20} />
-          Fechar Comanda
-        </button>
+        <>
+          <button
+            onClick={() => setShowCloseModal(true)}
+            className="bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-200 font-semibold flex items-center justify-center gap-2"
+          >
+            <Check size={20} />
+            Fechar Comanda
+          </button>
+
+          {showCloseModal && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
+              <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md">
+                <div className="flex flex-col gap-4">
+                  <div>
+                    <h2 className="text-xl font-bold text-gray-900">Fechar comanda</h2>
+                    <p className="text-sm text-gray-500 mt-1">
+                      Tem certeza que deseja finalizar a comanda #{command.number} da mesa {command.tableNumber}?
+                    </p>
+                  </div>
+
+                  <div className="rounded-xl border border-gray-100 bg-gray-50 p-4 text-sm text-gray-700">
+                    <p className="font-medium text-gray-900">Total atual</p>
+                    <p>R$ {totalAmount.toFixed(2)} • {itemCount} itens</p>
+                  </div>
+
+                  <div className="flex justify-end gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setShowCloseModal(false)}
+                      disabled={closing}
+                      className="px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors disabled:opacity-50"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleClose}
+                      disabled={closing}
+                      className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors disabled:opacity-50"
+                    >
+                      {closing ? 'Fechando...' : 'Confirmar'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   )
