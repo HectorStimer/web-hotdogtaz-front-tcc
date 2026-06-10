@@ -36,8 +36,8 @@ function AddUser() {
           <ArrowLeft size={20} className="text-gray-600" />
         </button>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Novo Usuário</h1>
-          <p className="text-sm text-gray-600">Adicione um novo membro à equipe</p>
+          <h1 className="section-title">Novo Usuário</h1>
+          <p className="section-subtitle">Adicione um novo membro à equipe</p>
         </div>
       </div>
 

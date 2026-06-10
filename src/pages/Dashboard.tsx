@@ -62,7 +62,7 @@ function Dashboard() {
     <div className="flex flex-col gap-8">
       <div>
         <h1 className="section-title">Dashboard</h1>
-        <p className="text-gray-600 text-sm">Bem-vindo! Aqui está um resumo do seu negócio</p>
+        <p className="section-subtitle">Bem-vindo! Aqui está um resumo do seu negócio</p>
       </div>
 
       {/* Stats Grid */}

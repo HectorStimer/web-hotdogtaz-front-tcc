@@ -34,7 +34,7 @@ function Users() {
       <div className="flex justify-between items-start gap-6">
         <div>
           <h1 className="section-title">Usuários</h1>
-          <p className="text-gray-600 text-sm">{users.length} usuários cadastrados</p>
+          <p className="section-subtitle">{users.length} usuários cadastrados</p>
         </div>
         <button
           onClick={() => navigate('/app/usuarios/novo')}

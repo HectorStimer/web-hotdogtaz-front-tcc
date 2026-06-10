@@ -76,8 +76,8 @@ function CommandPage() {
           <ArrowLeft size={20} className="text-gray-600" />
         </button>
         <div className="flex-1">
-          <h1 className="text-3xl font-bold text-gray-900">Comanda #{command.number}</h1>
-          <p className="text-sm text-gray-600">Mesa {command.tableNumber}</p>
+          <h1 className="section-title">Comanda #{command.number}</h1>
+          <p className="section-subtitle">Mesa {command.tableNumber}</p>
         </div>
         <span className={`badge text-sm ${
           isCompleted

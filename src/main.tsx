@@ -10,7 +10,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ReactKeycloakProvider
       authClient={keycloak}
-      initOptions={{ onLoad: 'login-required', checkLoginIframe: false }}
+      initOptions={{ onLoad: 'login-required', checkLoginIframe: false, locale: 'pt_BR' }}
     >
       <RouterProvider router={router} />
     </ReactKeycloakProvider>

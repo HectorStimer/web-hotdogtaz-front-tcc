@@ -11,7 +11,7 @@ function PrivateRoute({ children }: Props) {
   if (!initialized) return <LoadingScreen />
 
   if (!keycloak.authenticated) {
-    keycloak.login()
+    keycloak.login({ locale: 'pt_BR' })
     return <LoadingScreen />
   }
 

@@ -67,7 +67,7 @@ function Queue() {
       {/* Header */}
       <div>
         <h1 className="section-title">Fila de Pedidos</h1>
-        <p className="text-gray-600 text-sm">{requests.length} pedidos no total</p>
+        <p className="section-subtitle">{requests.length} pedidos no total</p>
       </div>
 
       {requests.length === 0 ? (

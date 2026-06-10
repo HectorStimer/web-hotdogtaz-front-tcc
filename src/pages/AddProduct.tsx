@@ -53,8 +53,8 @@ function AddProduct() {
           <ArrowLeft size={20} className="text-gray-600" />
         </button>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Novo Produto</h1>
-          <p className="text-sm text-gray-600">Adicione um novo item ao cardápio</p>
+          <h1 className="section-title">Novo Produto</h1>
+          <p className="section-subtitle">Adicione um novo item ao cardápio</p>
         </div>
       </div>
 

@@ -55,7 +55,7 @@ function Comandas() {
       <div className="flex justify-between items-start gap-6">
         <div>
           <h1 className="section-title">Comandas</h1>
-          <p className="text-gray-600 text-sm">{commands.length} comandas abertas</p>
+          <p className="section-subtitle">{commands.length} comandas abertas</p>
         </div>
         <button
           onClick={() => setOpenSheet(true)}

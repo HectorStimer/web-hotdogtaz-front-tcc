@@ -92,8 +92,8 @@ function NewRequest() {
           <ArrowLeft size={20} className="text-gray-600" />
         </button>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Novo Pedido</h1>
-          <p className="text-sm text-gray-600">Selecione os produtos desejados</p>
+          <h1 className="section-title">Novo Pedido</h1>
+          <p className="section-subtitle">Selecione os produtos desejados</p>
         </div>
       </div>
 

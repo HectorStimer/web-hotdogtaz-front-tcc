@@ -39,7 +39,7 @@ function Cardapio() {
       <div className="flex justify-between items-start gap-6">
         <div>
           <h1 className="section-title">Cardápio</h1>
-          <p className="text-gray-600 text-sm">{products.length} produtos disponíveis</p>
+          <p className="section-subtitle">{products.length} produtos disponíveis</p>
         </div>
         <button
           onClick={() => navigate('/app/cardapio/novo')}

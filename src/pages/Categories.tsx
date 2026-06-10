@@ -62,66 +62,76 @@ function Categories() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Categorias</h1>
+      <div className="flex flex-wrap justify-between items-center gap-6">
+        <div>
+          <h1 className="section-title">Categorias</h1>
+          <p className="section-subtitle">Organize as categorias do cardápio</p>
+        </div>
         <button
           onClick={handleOpenCreate}
-          className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors"
+          className="btn-primary"
         >
           + Nova Categoria
         </button>
       </div>
 
-      <div className="bg-white rounded-xl shadow overflow-hidden">
-        <table className="w-full text-sm">
-          <thead className="bg-gray-50 text-gray-600">
-            <tr>
-              <th className="text-left px-4 py-3">Nome</th>
-              <th className="px-4 py-3"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {categories.map((category) => (
-              <tr key={category.id} className="border-t hover:bg-gray-50">
-                <td className="px-4 py-3 font-medium">{category.name}</td>
-                <td className="px-4 py-3">
-                  <div className="flex gap-2 justify-end">
-                    <button
-                      onClick={() => handleOpenEdit(category)}
-                      className="text-orange-500 hover:text-orange-700 text-sm font-medium"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      onClick={() => handleDelete(category.id)}
-                      className="text-red-400 hover:text-red-600 text-sm font-medium"
-                    >
-                      Deletar
-                    </button>
-                  </div>
-                </td>
+      <div className="card overflow-hidden">
+        <div className="table-container">
+          <table className="w-full text-sm">
+            <thead className="bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+              <tr>
+                <th className="table-cell text-left font-semibold text-gray-700">Nome</th>
+                <th className="table-cell text-right font-semibold text-gray-700">Ações</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {categories.map((category) => (
+                <tr key={category.id} className="border-t border-gray-100 hover:bg-gray-50 transition-colors">
+                  <td className="table-cell font-medium text-gray-900">{category.name}</td>
+                  <td className="table-cell text-right">
+                    <div className="flex gap-2 justify-end">
+                      <button
+                        onClick={() => handleOpenEdit(category)}
+                        className="text-orange-500 hover:text-orange-700 text-sm font-medium"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        onClick={() => handleDelete(category.id)}
+                        className="text-red-500 hover:text-red-700 text-sm font-medium"
+                      >
+                        Deletar
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Modal */}
       {openModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-md flex flex-col gap-4">
-            <h2 className="text-xl font-bold">
-              {editing ? 'Editar Categoria' : 'Nova Categoria'}
-            </h2>
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="modal-panel flex flex-col gap-4">
+            <div>
+              <h2 className="text-xl font-bold text-gray-900">
+                {editing ? 'Editar Categoria' : 'Nova Categoria'}
+              </h2>
+              <p className="section-subtitle mt-1">
+                {editing ? 'Atualize o nome desta categoria' : 'Crie uma nova categoria para o cardápio'}
+              </p>
+            </div>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              <div className="flex flex-col gap-1">
-                <label className="text-sm font-medium">Nome</label>
+              <div className="form-group">
+                <label className="form-label">Nome</label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                  className="input-field"
                   required
                 />
               </div>
@@ -130,14 +140,14 @@ function Categories() {
                 <button
                   type="button"
                   onClick={() => setOpenModal(false)}
-                  className="px-4 py-2 rounded-lg border hover:bg-gray-100 transition-colors"
+                  className="btn-secondary"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors disabled:opacity-50"
+                  className="btn-primary"
                 >
                   {saving ? 'Salvando...' : 'Salvar'}
                 </button>

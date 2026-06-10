@@ -47,8 +47,8 @@ function EditUser() {
           <ArrowLeft size={20} className="text-gray-600" />
         </button>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Editar Usuário</h1>
-          <p className="text-sm text-gray-600">Atualize as informações do usuário</p>
+          <h1 className="section-title">Editar Usuário</h1>
+          <p className="section-subtitle">Atualize as informações do usuário</p>
         </div>
       </div>
 
