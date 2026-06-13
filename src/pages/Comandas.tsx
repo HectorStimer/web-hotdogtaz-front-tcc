@@ -4,6 +4,7 @@ import { createCommand } from '../services/command.service'
 import CommandCard from '../components/CommandCard'
 import type { Command } from '../types/command'
 import { Plus, X, Loader2 } from 'lucide-react'
+import { useToast } from '../contexts/toast'
 import LoadingScreen from '../components/Loading'
 
 function Comandas() {
@@ -16,6 +17,7 @@ function Comandas() {
   const [tableNumber, setTableNumber] = useState('')
   const [observation, setObservation] = useState('')
   const [saving, setSaving] = useState(false)
+  const toast = useToast()
 
   useEffect(() => {
     getCommands()
@@ -40,7 +42,7 @@ function Comandas() {
       setTableNumber('')
       setObservation('')
     } catch {
-      alert('Erro ao criar comanda.')
+      toast.show('Erro ao criar comanda.', 'error')
     } finally {
       setSaving(false)
     }

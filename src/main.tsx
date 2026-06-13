@@ -5,6 +5,8 @@ import { RouterProvider } from 'react-router-dom'
 import keycloak from './keycloak'
 import router from './routes'
 import './index.css'
+import { ToastProvider } from './contexts/toast'
+import { ConfirmProvider } from './contexts/confirm'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -12,7 +14,11 @@ createRoot(document.getElementById('root')!).render(
       authClient={keycloak}
       initOptions={{ onLoad: 'login-required', checkLoginIframe: false, locale: 'pt_BR' }}
     >
-      <RouterProvider router={router} />
+      <ToastProvider>
+        <ConfirmProvider>
+          <RouterProvider router={router} />
+        </ConfirmProvider>
+      </ToastProvider>
     </ReactKeycloakProvider>
   </StrictMode>,
 )

@@ -1,5 +1,7 @@
 import type { Product } from '../types/product'
 import { useNavigate } from 'react-router-dom'
+import { useToast } from '../contexts/toast'
+import { useConfirm } from '../contexts/confirm'
 import { deactivateProduct } from '../services/product.service'
 import { Edit2, Trash2, Eye } from 'lucide-react'
 
@@ -10,15 +12,18 @@ type Props = {
 
 function ProductCard({ product, onDeactivate }: Props) {
   const navigate = useNavigate()
+  const toast = useToast()
+  const confirm = useConfirm()
 
   async function handleDeactivate() {
-    if (!confirm('Deseja inativar este produto?')) return
+    const ok = await confirm('Deseja inativar este produto?')
+    if (!ok) return
 
     try {
       await deactivateProduct(product.id)
       onDeactivate(product.id)
     } catch {
-      alert('Erro ao inativar produto.')
+      toast.show('Erro ao inativar produto.', 'error')
     }
   }
 

@@ -4,6 +4,7 @@ import { getProducts } from '../services/product.service'
 import { createRequest } from '../services/request.service'
 import type { Product } from '../types/product'
 import { ArrowLeft, Plus, Minus, Trash2, CheckCircle, Loader2 } from 'lucide-react'
+import { useToast } from '../contexts/toast'
 import LoadingScreen from '../components/Loading'
 
 type ItemSelecionado = {
@@ -20,6 +21,7 @@ function NewRequest() {
   const [observation, setObservation] = useState('')
   const [saving, setSaving] = useState(false)
   const [loading, setLoading] = useState(true)
+  const toast = useToast()
 
   useEffect(() => {
     getProducts()
@@ -72,7 +74,7 @@ function NewRequest() {
       })
       navigate(`/app/comandas/${id}`)
     } catch {
-      alert('Erro ao criar pedido.')
+      toast.show('Erro ao criar pedido.', 'error')
     } finally {
       setSaving(false)
     }

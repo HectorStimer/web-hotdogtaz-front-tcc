@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getUserById, updateUser } from '../services/user.service'
 import { ArrowLeft, Loader2 } from 'lucide-react'
+import { useToast } from '../contexts/toast'
 
 function EditUser() {
   const { id } = useParams()
@@ -10,6 +11,7 @@ function EditUser() {
   const [email, setEmail] = useState('')
   const [active, setActive] = useState(true)
   const [saving, setSaving] = useState(false)
+  const toast = useToast()
 
   useEffect(() => {
     if (id) {
@@ -29,7 +31,7 @@ function EditUser() {
       await updateUser(parseInt(id), { name, email, active })
       navigate('/app/usuarios')
     } catch {
-      alert('Erro ao atualizar usuário.')
+      toast.show('Erro ao atualizar usuário.', 'error')
     } finally {
       setSaving(false)
     }

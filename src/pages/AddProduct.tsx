@@ -4,11 +4,13 @@ import { getCategories } from '../services/category.service'
 import type { Category } from '../types/category'
 import { createProduct } from '../services/product.service'
 import { ArrowLeft, Loader2 } from 'lucide-react'
+import { useToast } from '../contexts/toast'
 
 function AddProduct() {
   const navigate = useNavigate()
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(false)
+  const toast = useToast()
 
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -35,7 +37,7 @@ function AddProduct() {
       })
       navigate('/app/cardapio')
     } catch {
-      alert('Erro ao criar produto.')
+      toast.show('Erro ao criar produto.', 'error')
     } finally {
       setLoading(false)
     }

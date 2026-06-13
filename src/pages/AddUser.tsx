@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createUser } from '../services/user.service'
 import { ArrowLeft, Loader2 } from 'lucide-react'
+import { useToast } from '../contexts/toast'
 
 function AddUser() {
   const navigate = useNavigate()
@@ -10,6 +11,7 @@ function AddUser() {
   const [password, setPassword] = useState('')
   const [type, setType] = useState<'ADMIN' | 'CLERK'>('CLERK')
   const [saving, setSaving] = useState(false)
+  const toast = useToast()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -18,7 +20,7 @@ function AddUser() {
       await createUser({ name, email, password, type })
       navigate('/app/usuarios')
     } catch {
-      alert('Erro ao criar usuário.')
+      toast.show('Erro ao criar usuário.', 'error')
     } finally {
       setSaving(false)
     }

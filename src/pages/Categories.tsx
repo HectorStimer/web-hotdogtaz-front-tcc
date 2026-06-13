@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
+import { useToast } from '../contexts/toast'
+import { useConfirm } from '../contexts/confirm'
 import { getCategories, createCategory, updateCategory, deleteCategory } from '../services/category.service'
+import { getProducts } from '../services/product.service'
 import type { Category } from '../types/category'
 
 function Categories() {
@@ -9,6 +12,8 @@ function Categories() {
   const [editing, setEditing] = useState<Category | null>(null)
   const [name, setName] = useState('')
   const [saving, setSaving] = useState(false)
+  const toast = useToast()
+  const confirm = useConfirm()
 
   useEffect(() => {
     getCategories()
@@ -42,19 +47,37 @@ function Categories() {
       setOpenModal(false)
       setName('')
     } catch {
-      alert('Erro ao salvar categoria.')
+      toast.show('Erro ao salvar categoria.', 'error')
     } finally {
       setSaving(false)
     }
   }
 
   async function handleDelete(id: number) {
-    if (!confirm('Deseja deletar esta categoria?')) return
+    // pré-cheque: impedir exclusão se houver produtos vinculados à categoria
+    try {
+      const products = await getProducts()
+      const linked = products.some((p) => p.category?.id === id || p.categoryId === id)
+      if (linked) {
+        toast.show('Não é possível deletar: existem produtos vinculados a esta categoria.', 'error')
+        return
+      }
+    } catch (e) {
+      // se falhar ao buscar produtos, apenas logamos e seguimos para confirmar
+      // (a tentativa de delete seguirá e pode retornar erro do backend)
+      // eslint-disable-next-line no-console
+      console.error('Erro ao verificar produtos vinculados', e)
+    }
+
+    const ok = await confirm('Deseja deletar esta categoria?')
+    if (!ok) return
     try {
       await deleteCategory(id)
       setCategories((prev) => prev.filter((c) => c.id !== id))
-    } catch {
-      alert('Erro ao deletar categoria.')
+      toast.show('Categoria deletada com sucesso.', 'success')
+    } catch (err) {
+      const message = (err as any)?.response?.data?.message || (err as any)?.message || 'Erro ao deletar categoria.'
+      toast.show(message, 'error')
     }
   }
 

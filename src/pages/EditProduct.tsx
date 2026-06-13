@@ -4,6 +4,7 @@ import { getProductById, updateProduct } from '../services/product.service'
 import { getCategories } from '../services/category.service'
 import type { Category } from '../types/category'
 import { ArrowLeft, Loader2 } from 'lucide-react'
+import { useToast } from '../contexts/toast'
 
 function EditProduct() {
   const { id } = useParams()
@@ -17,6 +18,7 @@ function EditProduct() {
   const [imageUrl, setImageUrl] = useState('')
   const [categoryId, setCategoryId] = useState('')
   const [active, setActive] = useState(true)
+  const toast = useToast()
 
   useEffect(() => {
     getCategories().then(setCategories)
@@ -50,7 +52,7 @@ function EditProduct() {
       })
       navigate('/app/cardapio')
     } catch {
-      alert('Erro ao atualizar produto.')
+      toast.show('Erro ao atualizar produto.', 'error')
     } finally {
       setLoading(false)
     }

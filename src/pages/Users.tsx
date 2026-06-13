@@ -3,12 +3,16 @@ import { useNavigate } from 'react-router-dom'
 import { getUsers, deactivateUser } from '../services/user.service'
 import type { User } from '../types/user'
 import { Plus, Edit2, Trash2, Shield, User as UserIcon } from 'lucide-react'
+import { useToast } from '../contexts/toast'
+import { useConfirm } from '../contexts/confirm'
 import LoadingScreen from '../components/Loading'
 
 function Users() {
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
+  const toast = useToast()
+  const confirm = useConfirm()
 
   useEffect(() => {
     getUsers()
@@ -17,12 +21,13 @@ function Users() {
   }, [])
 
   async function handleDeactivate(id: number) {
-    if (!confirm('Deseja inativar este usuário?')) return
+    const ok = await confirm('Deseja inativar este usuário?')
+    if (!ok) return
     try {
       await deactivateUser(id)
       setUsers((prev) => prev.filter((u) => u.id !== id))
     } catch {
-      alert('Erro ao inativar usuário.')
+      toast.show('Erro ao inativar usuário.', 'error')
     }
   }
 

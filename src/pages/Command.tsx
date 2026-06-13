@@ -5,6 +5,7 @@ import { getRequestsByCommand } from '../services/request.service'
 import type { Command } from '../types/command'
 import type { Request } from '../types/request'
 import { ArrowLeft, Plus, Check, DollarSign, Clock } from 'lucide-react'
+import { useToast } from '../contexts/toast'
 import LoadingScreen from '../components/Loading'
 
 function CommandPage() {
@@ -15,6 +16,7 @@ function CommandPage() {
   const [loading, setLoading] = useState(true)
   const [showCloseModal, setShowCloseModal] = useState(false)
   const [closing, setClosing] = useState(false)
+  const toast = useToast()
 
   useEffect(() => {
     if (id) {
@@ -26,7 +28,7 @@ function CommandPage() {
           setCommand(commandData)
           setRequests(requestsData)
         })
-        .catch(() => alert('Erro ao carregar comanda.'))
+        .catch(() => toast.show('Erro ao carregar comanda.', 'error'))
         .finally(() => setLoading(false))
     }
   }, [id])
@@ -44,7 +46,7 @@ function CommandPage() {
       })
       navigate('/app/comandas')
     } catch {
-      alert('Erro ao fechar comanda.')
+      toast.show('Erro ao fechar comanda.', 'error')
     } finally {
       setClosing(false)
       setShowCloseModal(false)

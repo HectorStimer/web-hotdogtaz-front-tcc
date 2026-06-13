@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { getQueue, updateRequestStatus } from '../services/request.service'
 import type { Request } from '../types/request'
 import { ChefHat, CheckCircle, Zap, Clock } from 'lucide-react'
+import { useToast } from '../contexts/toast'
 import LoadingScreen from '../components/Loading'
 
 const STATUS_LABELS: Record<string, string> = {
@@ -35,6 +36,7 @@ const NEXT_STATUS_LABEL: Record<string, string> = {
 function Queue() {
   const [requests, setRequests] = useState<Request[]>([])
   const [loading, setLoading] = useState(true)
+  const toast = useToast()
 
   useEffect(() => {
     getQueue()
@@ -52,7 +54,7 @@ function Queue() {
         prev.map((r) => r.id === updated.id ? updated : r)
       )
     } catch {
-      alert('Erro ao atualizar status.')
+      toast.show('Erro ao atualizar status.', 'error')
     }
   }
 
